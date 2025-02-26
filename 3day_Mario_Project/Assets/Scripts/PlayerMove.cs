@@ -6,6 +6,7 @@ public class PlayerMove : MonoBehaviour
     Rigidbody2D rb;
     public float jumpForce = 5.0f;
     public float moveSpeed = 5.0f;
+    bool isJump = false;
     Vector3 dir;
 
     void Start()
@@ -23,8 +24,12 @@ public class PlayerMove : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            Debug.Log("점프");
-            rb.AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
+            if(isJump)
+            {
+                Debug.Log("점프");
+                rb.AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
+                isJump = false;
+            }
         }
     }
 
@@ -32,6 +37,22 @@ public class PlayerMove : MonoBehaviour
     {
         float x = Input.GetAxis("Horizontal");
         dir = new Vector2(x, 0);
+        if(x > 0)
+        {
+            gameObject.transform.localScale = new Vector3(1, 1);
+        }
+        if (x < 0)
+        {
+            gameObject.transform.localScale = new Vector3(-1, 1);
+        }
         transform.position += dir * moveSpeed * Time.deltaTime;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.layer == 6)
+        {
+            isJump = true;
+        }
     }
 }

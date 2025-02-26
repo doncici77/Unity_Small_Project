@@ -39,11 +39,11 @@ public class PlayerMove : MonoBehaviour
         dir = new Vector2(x, 0);
         if(x > 0)
         {
-            gameObject.transform.localScale = new Vector3(1, 1);
+            gameObject.transform.localScale = new Vector3(1, transform.localScale.y);
         }
         if (x < 0)
         {
-            gameObject.transform.localScale = new Vector3(-1, 1);
+            gameObject.transform.localScale = new Vector3(-1, transform.localScale.y);
         }
         transform.position += dir * moveSpeed * Time.deltaTime;
     }

@@ -12,6 +12,7 @@ TagManager:
   - ItemBig
   - ItemBlock
   - Coin
+  - Goal
   layers:
   - Default
   - TransparentFX

@@ -7,13 +7,14 @@ public class PlayerMove : MonoBehaviour
     public float jumpForce = 5.0f; // 점프 높이
     public float moveSpeed = 5.0f; // 움직임 속도
     public float killJump = 5.0f; // 죽을때 튀어오르는 높이
+    public float nukbackForce = 5.0f; // 죽을때 튀어오르는 높이
     bool isJump = false; // 점프 가능 여부
     bool canMove = true; // 움직임 가능 여부
     Vector3 dir;
     Animator animator;
 
-    public static bool bigState = false;
-    public static RaycastHit2D head_ray;
+    public static bool bigState = false; // 빅 모드
+    public static RaycastHit2D head_ray; // 머리 위로 충돌 체크
 
     void Start()
     {
@@ -41,9 +42,12 @@ public class PlayerMove : MonoBehaviour
     {
         if(!isJump)
         {
-            head_ray = Physics2D.Raycast(rb.position, Vector2.up, 1.5f, LayerMask.GetMask("NormalBlock"));
+            Vector2 rayStartPos = rb.position + Vector2.up * 1.0f;
+            head_ray = Physics2D.Raycast(rayStartPos, Vector2.up, 0.3f, LayerMask.GetMask("Block"));
+
             // 디버그용 Ray 그리기 (씬 뷰에서 확인 가능)
-            Debug.DrawRay(rb.position, Vector2.up * 1.3f, Color.red, 0.1f);
+            Debug.DrawRay(rayStartPos, Vector2.up * 0.3f, Color.red, 0.1f);
+            Debug.Log("머리 레이저" + head_ray);
         }
     }
 
@@ -108,7 +112,7 @@ public class PlayerMove : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.layer == 6)
+        if(collision.gameObject.layer == 6 || collision.gameObject.layer == 9)
         {
             isJump = true;
         }
@@ -117,7 +121,11 @@ public class PlayerMove : MonoBehaviour
         {
             if(bigState)
             {
+                gameObject.transform.localScale = new Vector3(transform.localScale.x, 0.5f);
+                bigState = false;
 
+                Vector2 nukback = (transform.position - collision.transform.position);
+                rb.AddForce(nukback * nukbackForce, ForceMode2D.Impulse);
             }
             else
             {
@@ -129,6 +137,12 @@ public class PlayerMove : MonoBehaviour
         {
             bigState = true;
             Destroy(collision.gameObject);
+        }
+
+        if(collision.gameObject.tag == "Coin")
+        {
+            Destroy(collision.gameObject);
+            GameUIManager.coin++;
         }
     }
 

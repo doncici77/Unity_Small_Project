@@ -6,7 +6,7 @@ public class GameUIManager : MonoBehaviour
     public Text playTimeText;
     public Text coinCountText;
     public Text stageText;
-    int coin = 0;
+    public static int coin = 0;
     float playTime = 0;
 
     void Start()

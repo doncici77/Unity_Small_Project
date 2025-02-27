@@ -8,7 +8,6 @@ public class DropCheck : MonoBehaviour
     {
         if(collision.gameObject.layer == 6)
         {
-            Debug.Log("¶³¾îÁü À§Çè");
             canDrop = true;
         }
     }

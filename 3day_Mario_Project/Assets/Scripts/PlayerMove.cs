@@ -11,9 +11,15 @@ public class PlayerMove : MonoBehaviour
     public float nukbackForce = 5.0f; // 죽을때 튀어오르는 높이
     bool isJump = false; // 점프 가능 여부
     bool canMove = true; // 움직임 가능 여부
+    bool goGoal = false;
+    Vector3 goalPos;
     Vector3 dir;
     Animator animator;
+
     Vector3 respawnPos;
+    SpriteRenderer spriteRenderer;
+    Collider2D dieCollide;
+    Color respawnColor;
 
     public static bool bigState = false; // 빅 모드
     public static RaycastHit2D head_ray; // 머리 위로 충돌 체크
@@ -21,9 +27,16 @@ public class PlayerMove : MonoBehaviour
 
     void Start()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        respawnColor = spriteRenderer.color;
         respawnPos = transform.position;
+
         rb = gameObject.GetComponent<Rigidbody2D>();
         animator = gameObject.GetComponent<Animator>();
+
+        GameObject goal = GameObject.FindGameObjectWithTag("Goal");
+        goalPos = goal.transform.position;
+        Debug.Log(goalPos);
     }
 
     void Update()
@@ -39,6 +52,16 @@ public class PlayerMove : MonoBehaviour
         if(bigState)
         {
             gameObject.transform.localScale = new Vector3(transform.localScale.x, 1);
+        }
+
+        if(goGoal && isJump) 
+        {
+            transform.position = Vector3.MoveTowards(transform.position, goalPos, moveSpeed * Time.deltaTime);
+
+            if(MathF.Abs(transform.position.x - goalPos.x) < 0.2)
+            {
+                gameObject.SetActive(false);
+            }
         }
     }
 
@@ -62,7 +85,6 @@ public class PlayerMove : MonoBehaviour
             {
                 rb.AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
                 isJump = false;
-                Debug.Log("점프");
                 animator.SetBool("isUp", true);
             }
         }
@@ -158,6 +180,7 @@ public class PlayerMove : MonoBehaviour
         if (collision.gameObject.tag == "Finish")
         {
             canMove = false;
+            goGoal = true;
         }
     }
 
@@ -167,19 +190,22 @@ public class PlayerMove : MonoBehaviour
 
         rb.AddForce(Vector2.up * killJump, ForceMode2D.Impulse); // 죽었을때 위로 튐
 
-        Collider2D dieCollide = gameObject.GetComponent<Collider2D>(); // 죽어서 충돌 제거
+        dieCollide = gameObject.GetComponent<Collider2D>(); // 죽어서 충돌 제거
         dieCollide.enabled = false;
 
-        SpriteRenderer dieRanderer = gameObject.GetComponent<SpriteRenderer>(); // 죽고 반투명 빨간색
+        spriteRenderer = gameObject.GetComponent<SpriteRenderer>(); // 죽고 반투명 빨간색
         Color dieColor = new Color(1f, 0f, 0f, 0.4f);
-        dieRanderer.color = dieColor;
+        spriteRenderer.color = dieColor;
 
         StartCoroutine("ReSpawn");
     }
 
-    IEnumerable ReSpawn()
+    IEnumerator ReSpawn()
     {
         yield return new WaitForSeconds(2);
+        spriteRenderer.color = respawnColor;
         transform.position = respawnPos;
+        dieCollide.enabled = true;
+        canMove = true;
     }
 }

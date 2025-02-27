@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
@@ -12,6 +13,7 @@ public class PlayerMove : MonoBehaviour
     bool canMove = true; // 움직임 가능 여부
     Vector3 dir;
     Animator animator;
+    Vector3 respawnPos;
 
     public static bool bigState = false; // 빅 모드
     public static RaycastHit2D head_ray; // 머리 위로 충돌 체크
@@ -19,6 +21,7 @@ public class PlayerMove : MonoBehaviour
 
     void Start()
     {
+        respawnPos = transform.position;
         rb = gameObject.GetComponent<Rigidbody2D>();
         animator = gameObject.GetComponent<Animator>();
     }
@@ -151,6 +154,11 @@ public class PlayerMove : MonoBehaviour
             Destroy(collision.gameObject);
             GameUIManager.coin++;
         }
+
+        if (collision.gameObject.tag == "Finish")
+        {
+            canMove = false;
+        }
     }
 
     void Dead()
@@ -165,5 +173,13 @@ public class PlayerMove : MonoBehaviour
         SpriteRenderer dieRanderer = gameObject.GetComponent<SpriteRenderer>(); // 죽고 반투명 빨간색
         Color dieColor = new Color(1f, 0f, 0f, 0.4f);
         dieRanderer.color = dieColor;
+
+        StartCoroutine("ReSpawn");
+    }
+
+    IEnumerable ReSpawn()
+    {
+        yield return new WaitForSeconds(2);
+        transform.position = respawnPos;
     }
 }

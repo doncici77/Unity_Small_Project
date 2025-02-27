@@ -27,18 +27,26 @@ public class EventBlock : MonoBehaviour
         {
             if(item == Items.Big)
             {
-                Instantiate(bigPrefab, createItemPos, bigPrefab);
+                Instantiate(bigPrefab, createItemPos.position, Quaternion.identity);
                 canSpawn = false;
                 SpriteRenderer block = gameObject.GetComponent<SpriteRenderer>();
                 block.sprite = stopBlock;
             }
             else if(item == Items.Coin)
             {
-                if(coinStack <= 5)
+                if(coinStack < 4)
                 {
                     GameUIManager.coin++;
                     StartCoroutine("SeeCoin");
                     coinStack++;
+                }
+                else if(coinStack == 4)
+                {
+                    GameUIManager.coin++;
+                    StartCoroutine("SeeCoin");
+                    coinStack++;
+                    SpriteRenderer block = gameObject.GetComponent<SpriteRenderer>();
+                    block.sprite = stopBlock;
                 }
             }
         }
@@ -46,7 +54,7 @@ public class EventBlock : MonoBehaviour
 
     IEnumerator SeeCoin()
     {
-        GameObject coin = Instantiate(coinPrefab, createItemPos, coinPrefab);
+        GameObject coin = Instantiate(coinPrefab, createItemPos.position, Quaternion.identity);
         yield return new WaitForSeconds(0.3f);
         Destroy(coin);
     }

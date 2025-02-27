@@ -115,7 +115,8 @@ public class PlayerMove : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.layer == 6 || collision.gameObject.layer == 9)
+        if(collision.gameObject.layer == 6 || collision.gameObject.layer == 9 
+            || collision.gameObject.layer == 7)
         {
             isJump = true;
         }
@@ -141,8 +142,11 @@ public class PlayerMove : MonoBehaviour
             bigState = true;
             Destroy(collision.gameObject);
         }
+    }
 
-        if(collision.gameObject.tag == "Coin")
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Coin")
         {
             Destroy(collision.gameObject);
             GameUIManager.coin++;

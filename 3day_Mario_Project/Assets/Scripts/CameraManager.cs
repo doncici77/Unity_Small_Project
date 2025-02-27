@@ -64,7 +64,7 @@ public class CameraManager : MonoBehaviour
         }
         else if(cameraNo == 1)
         {
-            gameObject.transform.position = new Vector3(0, -23);
+            gameObject.transform.position = new Vector3(0, -23, transform.position.z);
         }
     }
 }

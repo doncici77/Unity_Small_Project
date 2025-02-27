@@ -4,16 +4,18 @@ using UnityEngine;
 public class PlayerMove : MonoBehaviour
 {
     Rigidbody2D rb;
-    public float jumpForce = 5.0f;
-    public float moveSpeed = 5.0f;
-    public float killJump = 5.0f;
-    bool isJump = false;
-    bool canMove = true;
+    public float jumpForce = 5.0f; // 점프 높이
+    public float moveSpeed = 5.0f; // 움직임 속도
+    public float killJump = 5.0f; // 죽을때 튀어오르는 높이
+    bool isJump = false; // 점프 가능 여부
+    bool canMove = true; // 움직임 가능 여부
     Vector3 dir;
+    Animator animator;
 
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
+        animator = gameObject.GetComponent<Animator>();
     }
 
     void Update()
@@ -35,7 +37,20 @@ public class PlayerMove : MonoBehaviour
                 Debug.Log("점프");
                 rb.AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
                 isJump = false;
+                animator.SetBool("isUp", true);
             }
+        }
+
+        // 에니메이션
+        if(rb.linearVelocityY < 0)
+        {
+            animator.SetBool("isDown", true);
+            animator.SetBool("isUp", false);
+        }
+        else
+        {
+            animator.SetBool("isDown", false);
+            animator.SetBool("isUp", false);
         }
     }
 
@@ -52,6 +67,10 @@ public class PlayerMove : MonoBehaviour
             gameObject.transform.localScale = new Vector3(-1, transform.localScale.y);
         }
         transform.position += dir * moveSpeed * Time.deltaTime;
+
+        Debug.Log(rb.linearVelocityX);
+        // 애니메이션
+        animator.SetBool("isMove", x != 0f);
     }
 
     void Attack()
@@ -60,7 +79,7 @@ public class PlayerMove : MonoBehaviour
         if (rb.linearVelocityY < 0)
         {
             RaycastHit2D attck_ray = Physics2D.Raycast(rb.position, Vector2.down, 0.2f, LayerMask.GetMask("Enemy"));
-            Debug.Log(attck_ray);
+
             if (attck_ray.collider != null)
             {
                 EnemyMove.dead = true;
@@ -76,15 +95,7 @@ public class PlayerMove : MonoBehaviour
             isJump = true;
         }
 
-        if (collision.gameObject.tag == "Enemy")
-        {
-            Dead();
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag == "DeadZone")
+        if (collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "DeadZone")
         {
             Dead();
         }

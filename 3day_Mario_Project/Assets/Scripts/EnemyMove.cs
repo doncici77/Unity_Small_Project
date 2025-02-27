@@ -1,3 +1,5 @@
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem.Processors;
 
@@ -8,6 +10,8 @@ public class EnemyMove : MonoBehaviour
     int randX;
     int randRange;
     public static bool dead = false;
+    bool canMove = true;
+    public float killJump = 5.0f;
 
     void Start()
     {
@@ -16,30 +20,31 @@ public class EnemyMove : MonoBehaviour
 
     void Update()
     {
-        transform.position = Vector3.MoveTowards(transform.position, target, moveSpeed * Time.deltaTime);
-
-        MoveSetting();
-        Check();
+        if (canMove)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, target, moveSpeed * Time.deltaTime);
+            if (Mathf.Abs(target.x - transform.position.x) < 0.2)
+            {
+                MoveSetting();
+            }
+            Check();
+        }
         Dead();
-
     }
 
     void MoveSetting()
     {
-        if (Mathf.Abs(target.x - transform.position.x) < 0.2)
+        randX = Random.Range(0, 2);
+        randRange = Random.Range(1, 4);
+        if (randX == 0)
         {
-            randX = Random.Range(0, 2);
-            randRange = Random.Range(1, 4);
-            if (randX == 0)
-            {
-                target = new Vector3(transform.position.x - randRange, transform.position.y);
-                gameObject.transform.localScale = new Vector3(1, transform.localScale.y);
-            }
-            if (randX == 1)
-            {
-                target = new Vector3(transform.position.x + randRange, transform.position.y);
-                gameObject.transform.localScale = new Vector3(-1, transform.localScale.y);
-            }
+            target = new Vector3(transform.position.x - randRange, transform.position.y);
+            gameObject.transform.localScale = new Vector3(1, transform.localScale.y);
+        }
+        if (randX == 1)
+        {
+            target = new Vector3(transform.position.x + randRange, transform.position.y);
+            gameObject.transform.localScale = new Vector3(-1, transform.localScale.y);
         }
     }
 
@@ -66,9 +71,24 @@ public class EnemyMove : MonoBehaviour
 
     void Dead()
     {
-        if(dead)
+        if (dead)
         {
-            gameObject.SetActive(false);
+            canMove = false;
+
+            Collider2D dieCollide = gameObject.GetComponent<Collider2D>(); // Á×¾î¼­ Ãæµ¹ Á¦°Å
+            dieCollide.enabled = false;
+
+            SpriteRenderer dieRanderer = gameObject.GetComponent<SpriteRenderer>(); // Á×°í ¹ÝÅõ¸í »¡°£»ö
+            Color dieColor = new Color(1f, 0f, 0f, 0.4f);
+            dieRanderer.color = dieColor;
+
+            StartCoroutine("ActiveFalse");
         }
+    }
+
+    IEnumerator ActiveFalse()
+    {
+        yield return new WaitForSeconds(2);
+        gameObject.SetActive(false);
     }
 }

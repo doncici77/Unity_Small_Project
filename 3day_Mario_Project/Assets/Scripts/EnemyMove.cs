@@ -9,7 +9,6 @@ public class EnemyMove : MonoBehaviour
     Vector3 target;
     int randX;
     int randRange;
-    public static bool dead = false;
     bool canMove = true;
     public float killJump = 5.0f;
 
@@ -71,7 +70,7 @@ public class EnemyMove : MonoBehaviour
 
     void Dead()
     {
-        if (dead)
+        if (PlayerMove.attck_ray.collider != null)
         {
             canMove = false;
 

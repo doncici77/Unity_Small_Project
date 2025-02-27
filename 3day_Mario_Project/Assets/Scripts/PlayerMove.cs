@@ -15,6 +15,7 @@ public class PlayerMove : MonoBehaviour
 
     public static bool bigState = false; // 빅 모드
     public static RaycastHit2D head_ray; // 머리 위로 충돌 체크
+    public static RaycastHit2D attck_ray;
 
     void Start()
     {
@@ -104,7 +105,6 @@ public class PlayerMove : MonoBehaviour
 
             if (attck_ray.collider != null)
             {
-                EnemyMove.dead = true;
                 rb.AddForce(Vector2.up * killJump, ForceMode2D.Impulse);
             }
         }

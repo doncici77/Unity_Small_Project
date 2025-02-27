@@ -12,6 +12,9 @@ public class PlayerMove : MonoBehaviour
     Vector3 dir;
     Animator animator;
 
+    public static bool bigState = false;
+    public static RaycastHit2D head_ray;
+
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
@@ -25,6 +28,22 @@ public class PlayerMove : MonoBehaviour
             Move();
             Jump();
             Attack();
+            JumpAttack();
+        }
+
+        if(bigState)
+        {
+            gameObject.transform.localScale = new Vector3(transform.localScale.x, 1);
+        }
+    }
+
+    private void JumpAttack()
+    {
+        if(!isJump)
+        {
+            head_ray = Physics2D.Raycast(rb.position, Vector2.up, 1.5f, LayerMask.GetMask("NormalBlock"));
+            // 디버그용 Ray 그리기 (씬 뷰에서 확인 가능)
+            Debug.DrawRay(rb.position, Vector2.up * 1.3f, Color.red, 0.1f);
         }
     }
 
@@ -34,9 +53,9 @@ public class PlayerMove : MonoBehaviour
         {
             if(isJump)
             {
-                Debug.Log("점프");
                 rb.AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
                 isJump = false;
+                Debug.Log("점프");
                 animator.SetBool("isUp", true);
             }
         }
@@ -47,7 +66,7 @@ public class PlayerMove : MonoBehaviour
             animator.SetBool("isDown", true);
             animator.SetBool("isUp", false);
         }
-        else
+        else if (rb.linearVelocityY == 0)
         {
             animator.SetBool("isDown", false);
             animator.SetBool("isUp", false);
@@ -68,7 +87,6 @@ public class PlayerMove : MonoBehaviour
         }
         transform.position += dir * moveSpeed * Time.deltaTime;
 
-        Debug.Log(rb.linearVelocityX);
         // 애니메이션
         animator.SetBool("isMove", x != 0f);
     }
@@ -97,7 +115,20 @@ public class PlayerMove : MonoBehaviour
 
         if (collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "DeadZone")
         {
-            Dead();
+            if(bigState)
+            {
+
+            }
+            else
+            {
+                Dead();
+            }
+        }
+
+        if(collision.gameObject.tag == "ItemBig")
+        {
+            bigState = true;
+            Destroy(collision.gameObject);
         }
     }
 

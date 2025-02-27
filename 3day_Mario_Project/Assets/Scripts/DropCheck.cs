@@ -4,15 +4,14 @@ public class DropCheck : MonoBehaviour
 {
     public static bool canDrop = false;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+
+
+    private void OnTriggerExit2D(Collider2D collision)
     {
-        if(collision.gameObject.layer == 7)
+        if(collision.gameObject.layer == 6)
         {
+            Debug.Log("¶³¾îÁü À§Çè");
             canDrop = true;
-        }
-        else
-        {
-            canDrop = false;
         }
     }
 }

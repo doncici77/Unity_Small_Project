@@ -15,7 +15,6 @@ public class EnemyMove : MonoBehaviour
     void Update()
     {
         transform.position = Vector3.MoveTowards(transform.position, target, moveSpeed * Time.deltaTime);
-        Debug.Log(target);
         if(Mathf.Abs(target.x - transform.position.x) < 0.2)
         {
             MoveSetting();
@@ -23,7 +22,20 @@ public class EnemyMove : MonoBehaviour
 
         if(DropCheck.canDrop)
         {
-            MoveSetting();
+            if(gameObject.transform.localScale.x == -1)
+            {
+                randRange = Random.Range(2, 4);
+                target = new Vector3(transform.position.x - randRange, transform.position.y);
+                gameObject.transform.localScale = new Vector3(1, transform.localScale.y);
+                DropCheck.canDrop = false;
+            }
+            else if(gameObject.transform.localScale.x == 1)
+            {
+                randRange = Random.Range(2, 4);
+                target = new Vector3(transform.position.x + randRange, transform.position.y);
+                gameObject.transform.localScale = new Vector3(-1, transform.localScale.y);
+                DropCheck.canDrop = false;
+            }
         }
     }
 

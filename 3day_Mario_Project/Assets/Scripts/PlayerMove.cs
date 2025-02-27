@@ -54,5 +54,23 @@ public class PlayerMove : MonoBehaviour
         {
             isJump = true;
         }
+
+        if (collision.gameObject.tag == "Enemy")
+        {
+            Dead();
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "DeadZone")
+        {
+            Dead();
+        }
+    }
+
+    void Dead()
+    {
+        gameObject.SetActive(false);
     }
 }

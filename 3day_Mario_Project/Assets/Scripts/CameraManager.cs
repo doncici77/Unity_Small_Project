@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CameraManager : MonoBehaviour
@@ -20,6 +21,11 @@ public class CameraManager : MonoBehaviour
     {
         // 플레이어 탐색
         GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+        if(player == null)
+        {
+            return;
+        }
 
         float x = player.transform.position.x; // 플레이어 좌표 기준
         float y = player.transform.position.y; // 플레이어 좌표 기준

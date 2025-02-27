@@ -2,9 +2,7 @@ using UnityEngine;
 
 public class DropCheck : MonoBehaviour
 {
-    public static bool canDrop = false;
-
-
+    public bool canDrop = false;
 
     private void OnTriggerExit2D(Collider2D collision)
     {

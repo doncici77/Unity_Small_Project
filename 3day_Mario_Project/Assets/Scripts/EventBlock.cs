@@ -10,12 +10,10 @@ public class EventBlock : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("조우건1");
         if(collision.gameObject.tag == "Player" && 
             PlayerMove.head_ray.collider != null && 
             canSpawn == true)
         {
-            Debug.Log("조우건2");
             Instantiate(bigPrefab, createItemPos, bigPrefab);
             canSpawn = false;
             SpriteRenderer block = gameObject.GetComponent<SpriteRenderer>();

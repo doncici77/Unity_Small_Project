@@ -11,9 +11,11 @@ public class EnemyMove : MonoBehaviour
     int randRange;
     bool canMove = true;
     public float killJump = 5.0f;
+    public DropCheck dropCheck;
 
     void Start()
     {
+        dropCheck = GetComponentInChildren<DropCheck>();
         MoveSetting();
     }
 
@@ -28,7 +30,6 @@ public class EnemyMove : MonoBehaviour
             }
             Check();
         }
-        Dead();
     }
 
     void MoveSetting()
@@ -49,40 +50,37 @@ public class EnemyMove : MonoBehaviour
 
     void Check()
     {
-        if (DropCheck.canDrop)
+        if (dropCheck.canDrop)
         {
             if (gameObject.transform.localScale.x == -1)
             {
                 randRange = Random.Range(2, 4);
                 target = new Vector3(transform.position.x - randRange, transform.position.y);
                 gameObject.transform.localScale = new Vector3(1, transform.localScale.y);
-                DropCheck.canDrop = false;
+                dropCheck.canDrop = false;
             }
             else if (gameObject.transform.localScale.x == 1)
             {
                 randRange = Random.Range(2, 4);
                 target = new Vector3(transform.position.x + randRange, transform.position.y);
                 gameObject.transform.localScale = new Vector3(-1, transform.localScale.y);
-                DropCheck.canDrop = false;
+                dropCheck.canDrop = false;
             }
         }
     }
 
-    void Dead()
+    public void Dead()
     {
-        if (PlayerMove.attck_ray.collider != null)
-        {
-            canMove = false;
+        canMove = false;
 
-            Collider2D dieCollide = gameObject.GetComponent<Collider2D>(); // 죽어서 충돌 제거
-            dieCollide.enabled = false;
+        Collider2D dieCollide = gameObject.GetComponent<Collider2D>(); // 죽어서 충돌 제거
+        dieCollide.enabled = false;
 
-            SpriteRenderer dieRanderer = gameObject.GetComponent<SpriteRenderer>(); // 죽고 반투명 빨간색
-            Color dieColor = new Color(1f, 0f, 0f, 0.4f);
-            dieRanderer.color = dieColor;
+        SpriteRenderer dieRanderer = gameObject.GetComponent<SpriteRenderer>(); // 죽고 반투명 빨간색
+        Color dieColor = new Color(1f, 0f, 0f, 0.4f);
+        dieRanderer.color = dieColor;
 
-            StartCoroutine("ActiveFalse");
-        }
+        StartCoroutine("ActiveFalse"); // 2초뒤에 비활성화
     }
 
     IEnumerator ActiveFalse()

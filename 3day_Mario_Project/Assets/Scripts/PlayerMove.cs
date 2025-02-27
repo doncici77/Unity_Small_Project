@@ -48,7 +48,6 @@ public class PlayerMove : MonoBehaviour
 
             // 디버그용 Ray 그리기 (씬 뷰에서 확인 가능)
             Debug.DrawRay(rayStartPos, Vector2.up * 0.3f, Color.red, 0.1f);
-            Debug.Log("머리 레이저" + head_ray);
         }
     }
 
@@ -101,11 +100,15 @@ public class PlayerMove : MonoBehaviour
         // 레이 캐스트 공격 스크립트(y속도가 들쭉날쭉함)
         if (rb.linearVelocityY < 0)
         {
-            RaycastHit2D attck_ray = Physics2D.Raycast(rb.position, Vector2.down, 0.2f, LayerMask.GetMask("Enemy"));
+            attck_ray = Physics2D.Raycast(rb.position, Vector2.down, 0.2f, LayerMask.GetMask("Enemy"));
+            Debug.DrawRay(transform.position, Vector2.down * 0.2f, Color.yellow, 0.1f);
 
             if (attck_ray.collider != null)
             {
                 rb.AddForce(Vector2.up * killJump, ForceMode2D.Impulse);
+
+                EnemyMove enemy = attck_ray.collider.gameObject.GetComponent<EnemyMove>();
+                enemy.Dead();
             }
         }
     }

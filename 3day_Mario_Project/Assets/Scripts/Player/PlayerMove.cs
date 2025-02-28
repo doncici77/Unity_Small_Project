@@ -194,13 +194,20 @@ public class PlayerMove : MonoBehaviour
 
         if (collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "DeadZone")
         {
-            if(bigState)
+            if(bigState && collision.gameObject.tag == "Enemy")
             {
                 gameObject.transform.localScale = new Vector3(transform.localScale.x, 0.5f);
                 bigState = false;
 
                 Vector2 nukback = (transform.position - collision.transform.position);
                 rb.AddForce(nukback * nukbackForce, ForceMode2D.Impulse);
+            }
+            if(bigState && collision.gameObject.tag == "DeadZone")
+            {
+                gameObject.transform.localScale = new Vector3(transform.localScale.x, 0.5f);
+                bigState = false;
+
+                rb.AddForce(Vector2.up * nukbackForce * 2, ForceMode2D.Impulse);
             }
             else
             {

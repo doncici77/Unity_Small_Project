@@ -61,6 +61,7 @@ public class PlayerMove : MonoBehaviour
             if(MathF.Abs(transform.position.x - goalPos.x) < 0.2)
             {
                 gameObject.SetActive(false);
+                GameUIManager.goalState = true;
             }
         }
     }

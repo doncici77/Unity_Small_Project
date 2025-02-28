@@ -292,7 +292,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -10
-  m_Sprite: {fileID: -8461514266414155272, guid: 386c3aaa65c46b9479123e28bb739e77, type: 3}
+  m_Sprite: {fileID: 83378481022543303, guid: 5969dc863fd963948b11bb40a1a2f7bd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2892,7 +2892,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   potalSpawnPos: {fileID: 472762535}
-  nextBackground: {fileID: -8461514266414155272, guid: 386c3aaa65c46b9479123e28bb739e77, type: 3}
+  nextBackground: {fileID: 83378481022543303, guid: 5969dc863fd963948b11bb40a1a2f7bd, type: 3}
   cameraNo: 0
   dir: 1
 --- !u!61 &1025333619

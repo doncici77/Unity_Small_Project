@@ -9,10 +9,11 @@ public class GameUIManager : MonoBehaviour
     public static int coin = 0;
     float playTime = 0;
 
-    void Start()
-    {
-        
-    }
+    public Text clearText1;
+    public Text clearText2;
+    Color oneC;
+    Color twoC;
+    public static bool goalState = false;
 
     void Update()
     {
@@ -20,5 +21,17 @@ public class GameUIManager : MonoBehaviour
         playTime += Time.deltaTime;
 
         coinCountText.text = $"COIN X {coin}";
+
+        if (goalState)
+        {
+            Color color1 = clearText1.color;
+            Color color2 = clearText2.color;
+
+            color1.a += 0.004f;
+            color2.a += 0.004f;
+
+            clearText1.color = color1; // UI 텍스트의 실제 색상 변경
+            clearText2.color = color2;
+        }
     }
 }

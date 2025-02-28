@@ -18,6 +18,15 @@ public class EventBlock : MonoBehaviour
     int coinStack = 0;
     bool canSpawn = true;
 
+    public AudioClip bigSound;
+    public AudioClip coinSound;
+    AudioSource blockSound;
+
+    private void Start()
+    {
+        blockSound = GetComponent<AudioSource>();
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
 
@@ -27,24 +36,29 @@ public class EventBlock : MonoBehaviour
         {
             if(item == Items.Big)
             {
+                blockSound.clip = bigSound;
                 Instantiate(bigPrefab, createItemPos.position, Quaternion.identity);
                 canSpawn = false;
                 SpriteRenderer block = gameObject.GetComponent<SpriteRenderer>();
                 block.sprite = stopBlock;
+                blockSound.Play();
             }
             else if(item == Items.Coin)
             {
-                if(coinStack < 4)
+                blockSound.clip = coinSound;
+                if (coinStack < 4)
                 {
                     GameUIManager.coin++;
                     StartCoroutine("SeeCoin");
                     coinStack++;
+                    blockSound.Play();
                 }
                 else if(coinStack == 4)
                 {
                     GameUIManager.coin++;
                     StartCoroutine("SeeCoin");
                     coinStack++;
+                    blockSound.Play();
                     SpriteRenderer block = gameObject.GetComponent<SpriteRenderer>();
                     block.sprite = stopBlock;
                 }

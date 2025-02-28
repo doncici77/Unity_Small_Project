@@ -11,7 +11,8 @@ public class PlayerMove : MonoBehaviour
     public float nukbackForce = 5.0f; // 죽을때 튀어오르는 높이
     bool isJump = false; // 점프 가능 여부
     bool canMove = true; // 움직임 가능 여부
-    bool goGoal = false;
+    public bool goGoal = false;
+    bool isPowerUp = false;
     Vector3 goalPos;
     Vector3 dir;
     Animator animator;
@@ -25,6 +26,12 @@ public class PlayerMove : MonoBehaviour
     public static RaycastHit2D head_ray; // 머리 위로 충돌 체크
     public static RaycastHit2D attck_ray;
 
+    public AudioClip deadSound;
+    public AudioClip coinSound;
+    public AudioClip jumpSound;
+    public AudioClip poweUpSound;
+    AudioSource playerSound;
+
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -36,7 +43,8 @@ public class PlayerMove : MonoBehaviour
 
         GameObject goal = GameObject.FindGameObjectWithTag("Goal");
         goalPos = goal.transform.position;
-        Debug.Log(goalPos);
+
+        playerSound = gameObject.GetComponent<AudioSource>();
     }
 
     void Update()
@@ -51,7 +59,13 @@ public class PlayerMove : MonoBehaviour
 
         if(bigState)
         {
-            gameObject.transform.localScale = new Vector3(transform.localScale.x, 1);
+            if(isPowerUp)
+            {
+                gameObject.transform.localScale = new Vector3(transform.localScale.x, 1);
+                playerSound.clip = poweUpSound;
+                playerSound.Play();
+                isPowerUp = false;
+            }
         }
 
         if(goGoal && isJump) 
@@ -87,6 +101,8 @@ public class PlayerMove : MonoBehaviour
                 rb.AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
                 isJump = false;
                 animator.SetBool("isUp", true);
+                playerSound.clip = jumpSound;
+                playerSound.Play();
             }
         }
 
@@ -166,6 +182,7 @@ public class PlayerMove : MonoBehaviour
         if(collision.gameObject.tag == "ItemBig")
         {
             bigState = true;
+            isPowerUp = true;
             Destroy(collision.gameObject);
         }
     }
@@ -176,6 +193,8 @@ public class PlayerMove : MonoBehaviour
         {
             Destroy(collision.gameObject);
             GameUIManager.coin++;
+            playerSound.clip = coinSound;
+            playerSound.Play();
         }
 
         if (collision.gameObject.tag == "Finish")
@@ -188,6 +207,9 @@ public class PlayerMove : MonoBehaviour
     void Dead()
     {
         canMove = false;
+
+        playerSound.clip = deadSound;
+        playerSound.Play();
 
         rb.AddForce(Vector2.up * killJump, ForceMode2D.Impulse); // 죽었을때 위로 튐
 

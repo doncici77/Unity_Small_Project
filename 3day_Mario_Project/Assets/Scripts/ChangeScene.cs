@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,12 +10,18 @@ public class ChangeScene : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            Load();
+            StartCoroutine("LoadScene");
         }
     }
 
     void Load()
     {
         SceneManager.LoadScene(sceneName);
+    }
+
+    IEnumerator LoadScene()
+    {
+        yield return new WaitForSeconds(1);
+        Load();
     }
 }

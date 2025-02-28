@@ -1,6 +1,7 @@
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.InputSystem.Processors;
 
 public class EnemyMove : MonoBehaviour
@@ -12,10 +13,12 @@ public class EnemyMove : MonoBehaviour
     bool canMove = true;
     public float killJump = 5.0f;
     public DropCheck dropCheck;
+    AudioSource audioSource;
 
     void Start()
     {
         dropCheck = GetComponentInChildren<DropCheck>();
+        audioSource = GetComponentInChildren<AudioSource>();
         MoveSetting();
     }
 
@@ -79,6 +82,8 @@ public class EnemyMove : MonoBehaviour
         SpriteRenderer dieRanderer = gameObject.GetComponent<SpriteRenderer>(); // 죽고 반투명 빨간색
         Color dieColor = new Color(1f, 0f, 0f, 0.4f);
         dieRanderer.color = dieColor;
+
+        audioSource.Play();
 
         StartCoroutine("ActiveFalse"); // 2초뒤에 비활성화
     }

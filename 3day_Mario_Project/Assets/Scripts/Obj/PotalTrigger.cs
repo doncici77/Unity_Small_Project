@@ -14,6 +14,13 @@ public class PotalTrigger : MonoBehaviour
     bool canPotal = false;
     public Dir dir;
     Transform player;
+    AudioSource audioSource;
+
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
+
 
     private void Update()
     {
@@ -24,6 +31,7 @@ public class PotalTrigger : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
                 {
                     SetPotal();
+                    audioSource.Play();
                 }
             }
             else if(dir == Dir.Right)
@@ -31,6 +39,7 @@ public class PotalTrigger : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
                 {
                     SetPotal();
+                    audioSource.Play();
                 }
             }
         }

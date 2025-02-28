@@ -37,3 +37,23 @@ https://peppermint-waxflower-91d.notion.site/1a6bf749df0680dcb1b5c5e281798b37?pv
 - 적 ai로직 오류 수정(적이 일정한 확률로 바닥을 벗어나서 떨어짐)
 - 종료 오류(씬이 종료 코틀린이 불러와지지가 않음. 문제점: update에 종료 코틀린 함수를 넣었는데 프레임마다 불려와서 오류가 발생. 해결법: bool값을 하나 줘서 코틀린 함수가 종료될때까지 bool값이 변하지 않아 계속 불려오지 않게 됨.) 수정, 씬의 코인 배치 수정
 - 기획서? 노션 연결
+
+
+### 시작화면
+![시작화면](https://github.com/user-attachments/assets/2bd7115b-546b-4080-9151-d94daa66f95d)
+
+### 마리오의 블럭과 캐릭터가 커지는 버섯 기믹
+![_-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/114c6f41-4840-45e3-9318-fdb58da2845a)
+
+### 마리오 버섯 적의 기믹
+![__-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/d3e97a8b-dd19-4b37-94a7-ab1b52ba0b95)
+
+
+### 코인블럭, 배관포탈, 코인개수 증가
+![___-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/c4493148-48fe-4de8-82b1-39cf0af15673)
+
+
+### 깃발, 게임클리어 기믹
+![_-ezgif com-video-to-gif-converter (1)](https://github.com/user-attachments/assets/a9875077-fe33-486e-844f-bcae2e24fd16)
+
+

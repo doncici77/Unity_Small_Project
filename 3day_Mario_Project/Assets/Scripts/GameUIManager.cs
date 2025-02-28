@@ -13,6 +13,7 @@ public class GameUIManager : MonoBehaviour
     public Text clearText1;
     public Text clearText2;
     public static bool goalState = false;
+    bool isGameOff = false;
 
     void Update()
     {
@@ -33,9 +34,10 @@ public class GameUIManager : MonoBehaviour
             clearText1.color = color1; // UI 텍스트의 실제 색상 변경
             clearText2.color = color2;
 
-            if(color1.a >= 1)
+            if (color1.a >= 1 && !isGameOff)
             {
-                StartCoroutine("GameOff");
+                isGameOff = true;  // 중복 실행 방지
+                StartCoroutine(GameOff());
             }
         }
 

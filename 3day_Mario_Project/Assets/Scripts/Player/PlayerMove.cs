@@ -35,6 +35,9 @@ public class PlayerMove : MonoBehaviour
     public AudioClip poweUpSound;
     AudioSource playerSound;
 
+    public Sprite stage1B;
+    SpriteRenderer backgroundSprite;
+
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -46,6 +49,9 @@ public class PlayerMove : MonoBehaviour
 
         GameObject goal = GameObject.FindGameObjectWithTag("Goal");
         goalPos = goal.transform.position;
+
+        GameObject backG = GameObject.FindGameObjectWithTag("BackGround");
+        backgroundSprite = backG.GetComponent<SpriteRenderer>();
 
         playerSound = gameObject.GetComponent<AudioSource>();
     }
@@ -250,5 +256,6 @@ public class PlayerMove : MonoBehaviour
         transform.position = respawnPos;
         dieCollide.enabled = true;
         canMove = true;
+        backgroundSprite.sprite = stage1B;
     }
 }

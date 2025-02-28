@@ -1,8 +1,5 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Audio;
-using UnityEngine.InputSystem.Processors;
 
 public class EnemyMove : MonoBehaviour
 {
@@ -12,7 +9,7 @@ public class EnemyMove : MonoBehaviour
     int randRange;
     bool canMove = true;
     public float killJump = 5.0f;
-    public DropCheck dropCheck;
+    DropCheck dropCheck;
     AudioSource audioSource;
 
     void Start()
@@ -27,11 +24,11 @@ public class EnemyMove : MonoBehaviour
         if (canMove)
         {
             transform.position = Vector3.MoveTowards(transform.position, target, moveSpeed * Time.deltaTime);
+            Check();
             if (Mathf.Abs(target.x - transform.position.x) < 0.2)
             {
-                MoveSetting();
+                MoveSetting(); // 목표 설정
             }
-            Check();
         }
     }
 
@@ -55,6 +52,7 @@ public class EnemyMove : MonoBehaviour
     {
         if (dropCheck.canDrop)
         {
+            Debug.Log(dropCheck.canDrop);
             if (gameObject.transform.localScale.x == -1)
             {
                 randRange = Random.Range(2, 4);

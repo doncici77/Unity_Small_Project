@@ -28,7 +28,7 @@ public class PotalTrigger : MonoBehaviour
         {
             if(dir == Dir.Down)
             {
-                if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+                if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
                 {
                     SetPotal();
                     audioSource.Play();
@@ -36,7 +36,7 @@ public class PotalTrigger : MonoBehaviour
             }
             else if(dir == Dir.Right)
             {
-                if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+                if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
                 {
                     SetPotal();
                     audioSource.Play();

@@ -25,6 +25,9 @@ public class PlayerMove : MonoBehaviour
     public static bool bigState = false; // 빅 모드
     public static RaycastHit2D head_ray; // 머리 위로 충돌 체크
     public static RaycastHit2D attck_ray;
+    RaycastHit2D bottom_ray;
+    RaycastHit2D wall_ray;
+    RaycastHit2D block_ray;
 
     public AudioClip deadSound;
     public AudioClip coinSound;
@@ -54,10 +57,11 @@ public class PlayerMove : MonoBehaviour
             Move();
             Jump();
             Attack();
-            JumpAttack();
+            DestoryBlock();
         }
+        CheckJump();
 
-        if(bigState)
+        if (bigState)
         {
             if(isPowerUp)
             {
@@ -80,7 +84,7 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    private void JumpAttack()
+    private void DestoryBlock()
     {
         if(!isJump)
         {
@@ -155,10 +159,26 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
+    void CheckJump()
+    {
+        bottom_ray = Physics2D.Raycast(rb.position, Vector2.down, 0.2f, LayerMask.GetMask("Bottom"));
+        wall_ray = Physics2D.Raycast(rb.position, Vector2.down, 0.2f, LayerMask.GetMask("Wall"));
+        block_ray = Physics2D.Raycast(rb.position, Vector2.down, 0.2f, LayerMask.GetMask("Block"));
+
+        Debug.Log(isJump);
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.layer == 6 || collision.gameObject.layer == 9 
-            || collision.gameObject.layer == 7)
+        if (bottom_ray.collider != null)
+        {
+            isJump = true;
+        }
+        else if (wall_ray.collider != null)
+        {
+            isJump = true;
+        }
+        else if (block_ray.collider != null)
         {
             isJump = true;
         }

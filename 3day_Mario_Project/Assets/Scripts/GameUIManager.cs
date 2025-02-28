@@ -11,8 +11,6 @@ public class GameUIManager : MonoBehaviour
 
     public Text clearText1;
     public Text clearText2;
-    Color oneC;
-    Color twoC;
     public static bool goalState = false;
 
     void Update()
@@ -24,6 +22,7 @@ public class GameUIManager : MonoBehaviour
 
         if (goalState)
         {
+
             Color color1 = clearText1.color;
             Color color2 = clearText2.color;
 
@@ -32,6 +31,11 @@ public class GameUIManager : MonoBehaviour
 
             clearText1.color = color1; // UI 텍스트의 실제 색상 변경
             clearText2.color = color2;
+
+            if(color1.a >= 1)
+            {
+                return;
+            }
         }
     }
 }

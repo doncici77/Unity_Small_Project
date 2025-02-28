@@ -5,7 +5,7 @@ public class CameraManager : MonoBehaviour
 {
     // 카메라의 스크롤 제한 값
     public static float left_limit = 0.0f;
-    public static float right_limit = 16.0f;
+    public static float right_limit = 88.0f;
     public float top_limit = 5.0f;
     public float bottom_limit = 0.0f;
 

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -34,8 +35,14 @@ public class GameUIManager : MonoBehaviour
 
             if(color1.a >= 1)
             {
-                return;
+                StartCoroutine("GameOff");
             }
+        }
+
+        IEnumerator GameOff()
+        {
+            yield return new WaitForSeconds(2);
+            Application.Quit();
         }
     }
 }

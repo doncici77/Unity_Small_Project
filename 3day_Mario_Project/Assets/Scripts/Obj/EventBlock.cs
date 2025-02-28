@@ -30,7 +30,8 @@ public class EventBlock : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
 
-        if(collision.gameObject.tag == "Player" && 
+        if(collision.gameObject.tag == "Player" &&
+            (collision.gameObject.GetComponent<Transform>().position.y < transform.position.y) &&
             PlayerMove.head_ray.collider != null && 
             canSpawn == true)
         {

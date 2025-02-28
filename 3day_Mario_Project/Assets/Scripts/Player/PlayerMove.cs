@@ -81,8 +81,11 @@ public class PlayerMove : MonoBehaviour
         if(goGoal && isJump) 
         {
             transform.position = Vector3.MoveTowards(transform.position, goalPos, moveSpeed * Time.deltaTime);
+            animator.SetBool("isDown", false);
+            animator.SetBool("isUp", false);
+            animator.SetBool("isMove", true);
 
-            if(MathF.Abs(transform.position.x - goalPos.x) < 0.2)
+            if (MathF.Abs(transform.position.x - goalPos.x) < 0.2)
             {
                 gameObject.SetActive(false);
                 GameUIManager.goalState = true;

@@ -2322,7 +2322,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   one: {fileID: 869588805}
   two: {fileID: 2033826442}
-  aSpeed: 0.004
+  aSpeed: 0.006
 --- !u!82 &1783157068
 AudioSource:
   m_ObjectHideFlags: 0

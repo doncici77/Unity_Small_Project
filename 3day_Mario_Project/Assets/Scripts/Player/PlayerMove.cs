@@ -9,7 +9,7 @@ public class PlayerMove : MonoBehaviour
     public float moveSpeed = 5.0f; // 움직임 속도
     public float killJump = 5.0f; // 죽을때 튀어오르는 높이
     public float nukbackForce = 5.0f; // 죽을때 튀어오르는 높이
-    bool isJump = false; // 점프 가능 여부
+    public bool isJump = false; // 점프 가능 여부
     bool canMove = true; // 움직임 가능 여부
     public bool goGoal = false;
     bool isPowerUp = false;
@@ -81,7 +81,6 @@ public class PlayerMove : MonoBehaviour
         if(goGoal && isJump) 
         {
             transform.position = Vector3.MoveTowards(transform.position, goalPos, moveSpeed * Time.deltaTime);
-            animator.SetBool("isDown", false);
             animator.SetBool("isUp", false);
             animator.SetBool("isMove", true);
 
@@ -117,18 +116,6 @@ public class PlayerMove : MonoBehaviour
                 playerSound.clip = jumpSound;
                 playerSound.Play();
             }
-        }
-
-        // 에니메이션
-        if(rb.linearVelocityY < 0)
-        {
-            animator.SetBool("isDown", true);
-            animator.SetBool("isUp", false);
-        }
-        else if (rb.linearVelocityY == 0)
-        {
-            animator.SetBool("isDown", false);
-            animator.SetBool("isUp", false);
         }
     }
 
@@ -170,10 +157,11 @@ public class PlayerMove : MonoBehaviour
 
     void CheckJump()
     {
-        bottom_ray = Physics2D.Raycast(rb.position, Vector2.down, 0.2f, LayerMask.GetMask("Bottom"));
-        wall_ray = Physics2D.Raycast(rb.position, Vector2.down, 0.2f, LayerMask.GetMask("Wall"));
-        block_ray = Physics2D.Raycast(rb.position, Vector2.down, 0.2f, LayerMask.GetMask("Block"));
+        bottom_ray = Physics2D.Raycast(rb.position, Vector2.down, 0.7f, LayerMask.GetMask("Bottom"));
+        wall_ray = Physics2D.Raycast(rb.position, Vector2.down, 0.7f, LayerMask.GetMask("Wall"));
+        block_ray = Physics2D.Raycast(rb.position, Vector2.down, 0.7f, LayerMask.GetMask("Block"));
 
+        Debug.DrawRay(transform.position, Vector2.down * 0.7f, Color.green, 0.1f);
         Debug.Log(isJump);
     }
 
@@ -182,14 +170,17 @@ public class PlayerMove : MonoBehaviour
         if (bottom_ray.collider != null)
         {
             isJump = true;
+            animator.SetBool("isUp", false);
         }
         else if (wall_ray.collider != null)
         {
             isJump = true;
+            animator.SetBool("isUp", false);
         }
         else if (block_ray.collider != null)
         {
             isJump = true;
+            animator.SetBool("isUp", false);
         }
 
         if (collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "DeadZone")

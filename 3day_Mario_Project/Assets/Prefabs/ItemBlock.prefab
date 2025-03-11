@@ -80,7 +80,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 2160946167482080428, guid: bf16436f2e121c6419787e061162f094, type: 3}
+  m_Sprite: {fileID: 1443245347, guid: c6b1479c320567c4582b9c3296df7652, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -125,10 +125,10 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.5}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0}
+    pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 1, y: 1}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
@@ -152,7 +152,7 @@ MonoBehaviour:
   bigPrefab: {fileID: 983952976477656223, guid: a63a701961e06964bb66c0a7d9467aa3, type: 3}
   coinPrefab: {fileID: 496205212213209511, guid: b01c67e7cf9eb2e4589e2db264a142da, type: 3}
   createItemPos: {fileID: 490216312641620232}
-  stopBlock: {fileID: 5107282872573515666, guid: bf16436f2e121c6419787e061162f094, type: 3}
+  stopBlock: {fileID: 1863509162, guid: 11baa6361506d3b43b4e9e78e6349ca4, type: 3}
   item: 1
   bigSound: {fileID: 8300000, guid: e5d5a739dbb4d4f14ac1b79364078d44, type: 3}
   coinSound: {fileID: 8300000, guid: 0b5de865586844050b285d4a3fd6b033, type: 3}

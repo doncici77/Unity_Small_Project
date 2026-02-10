@@ -10,7 +10,7 @@ public class ChangeScene : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            StartCoroutine("LoadScene");
+            StartCoroutine(LoadScene());
         }
     }
 
